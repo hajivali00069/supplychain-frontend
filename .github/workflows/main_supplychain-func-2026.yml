@@ -32,7 +32,7 @@ jobs:
       - name: 'Resolve Project Dependencies Using Npm'
         shell: pwsh
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './backend/azure-functions'
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: backend/azure-functions
 
   deploy:
     runs-on: windows-latest
@@ -70,5 +70,5 @@ jobs:
         with:
           app-name: 'supplychain-func-2026'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: .
           
