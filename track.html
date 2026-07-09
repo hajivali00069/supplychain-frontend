@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Shipment | Supply Chain Transparency Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topnav">
+    <div class="brand"><span class="dot"></span> Supply Chain Transparency</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="products.html">Products</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="track.html" class="active">Track Shipment</a>
+      <a href="verify.html">Verify Product</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Track Shipment</h1>
+      <p>Look up a product to see its checkpoint history. Manual entry below simulates what an IoT device will report automatically once connected.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <label for="lookupProductId">Product ID</label>
+      <div style="display:flex; gap:10px;">
+        <input type="text" id="lookupProductId" placeholder="PRD-001">
+        <button class="btn btn-secondary" id="lookupBtn" style="white-space:nowrap;">Load history</button>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Checkpoint history</h2>
+        <div id="shipmentHistory"><p class="empty-state">Enter a product ID above to load its journey.</p></div>
+      </div>
+
+      <div class="card">
+        <h2>Log a checkpoint (manual / simulated sensor)</h2>
+        <div id="formNotice"></div>
+        <form id="shipmentForm">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="Chennai Port Warehouse">
+
+          <div class="form-row">
+            <div>
+              <label for="latitude">Latitude</label>
+              <input type="number" step="0.000001" id="latitude" placeholder="13.0827">
+            </div>
+            <div>
+              <label for="longitude">Longitude</label>
+              <input type="number" step="0.000001" id="longitude" placeholder="80.2707">
+            </div>
+          </div>
+
+          <label for="temperature">Temperature (°C, optional sensor reading)</label>
+          <input type="number" step="0.1" id="temperature" placeholder="24.5">
+
+          <label for="status">Status at this checkpoint</label>
+          <select id="status">
+            <option value="Manufactured">Manufactured</option>
+            <option value="In Transit" selected>In Transit</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+
+          <button type="submit" class="btn btn-primary btn-block">Log checkpoint</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/track.js"></script>
+</body>
+</html>

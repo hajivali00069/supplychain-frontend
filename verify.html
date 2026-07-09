@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Product | Supply Chain Transparency Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topnav">
+    <div class="brand"><span class="dot"></span> Supply Chain Transparency</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="products.html">Products</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="track.html">Track Shipment</a>
+      <a href="verify.html" class="active">Verify Product</a>
+    </nav>
+  </header>
+
+  <main class="page" style="max-width: 640px;">
+    <div class="verify-hero">
+      <h1 style="margin-bottom:4px;">Verify a product</h1>
+      <p style="color: var(--muted);">Scan a product's QR code, or enter its ID below, to confirm authenticity.</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <div style="display:flex; gap:10px;">
+        <input type="text" id="verifyProductId" placeholder="PRD-001">
+        <button class="btn btn-primary" id="verifyBtn" style="white-space:nowrap;">Verify</button>
+      </div>
+    </div>
+
+    <div id="verifyResult"></div>
+
+    <footer class="hint">Every result above is backed by an append-only ledger entry — this page does not alter or accept edits to the record.</footer>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/verify.js"></script>
+</body>
+</html>

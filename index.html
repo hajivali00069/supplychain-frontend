@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Supply Chain Transparency Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topnav">
+    <div class="brand"><span class="dot"></span> Supply Chain Transparency</div>
+    <nav>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="products.html">Products</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="track.html">Track Shipment</a>
+      <a href="verify.html">Verify Product</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Dashboard</h1>
+      <p>Overview of products, suppliers, and ledger activity.</p>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom: 24px;">
+      <div class="card stat-card">
+        <div class="value" id="statProducts">–</div>
+        <div class="label">Registered products</div>
+      </div>
+      <div class="card stat-card">
+        <div class="value" id="statSuppliers">–</div>
+        <div class="label">Active suppliers</div>
+      </div>
+      <div class="card stat-card">
+        <div class="value" id="statDelivered">–</div>
+        <div class="label">Delivered products</div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Recent products</h2>
+        <div id="recentProducts"><p class="empty-state">Loading…</p></div>
+      </div>
+      <div class="card">
+        <h2>Getting started</h2>
+        <p style="color: var(--muted); font-size: 0.9rem;">
+          1. Add a supplier on the <a href="suppliers.html">Suppliers</a> page.<br><br>
+          2. Register a product against that supplier on the <a href="products.html">Products</a> page — this also writes the first ledger entry.<br><br>
+          3. Log shipment checkpoints on the <a href="track.html">Track Shipment</a> page as the product moves.<br><br>
+          4. Anyone can confirm authenticity on the public <a href="verify.html">Verify Product</a> page.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    async function loadDashboard() {
+      const recentEl = document.getElementById("recentProducts");
+      try {
+        const [productsRes, suppliersRes] = await Promise.all([
+          api.get("/products"),
+          api.get("/suppliers")
+        ]);
+
+        const products = productsRes.products || [];
+        const suppliers = suppliersRes.suppliers || [];
+        const delivered = products.filter(p => (p.Status || "").toLowerCase() === "delivered");
+
+        document.getElementById("statProducts").textContent = products.length;
+        document.getElementById("statSuppliers").textContent = suppliers.length;
+        document.getElementById("statDelivered").textContent = delivered.length;
+
+        if (products.length === 0) {
+          recentEl.innerHTML = `<p class="empty-state">No products yet. Add one on the Products page.</p>`;
+          return;
+        }
+
+        const rows = products.slice(0, 5).map(p => `
+          <tr>
+            <td class="mono">${p.ProductId}</td>
+            <td>${p.ProductName}</td>
+            <td><span class="badge ${statusBadgeClass(p.Status)}">${p.Status}</span></td>
+          </tr>
+        `).join("");
+
+        recentEl.innerHTML = `
+          <table>
+            <thead><tr><th>Product ID</th><th>Name</th><th>Status</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      } catch (err) {
+        recentEl.innerHTML = `<div class="notice notice-error">Could not reach the API: ${err.message}. Is the backend running?</div>`;
+        document.getElementById("statProducts").textContent = "–";
+        document.getElementById("statSuppliers").textContent = "–";
+        document.getElementById("statDelivered").textContent = "–";
+      }
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
