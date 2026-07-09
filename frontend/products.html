@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Supply Chain Transparency Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topnav">
+    <div class="brand"><span class="dot"></span> Supply Chain Transparency</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="track.html">Track Shipment</a>
+      <a href="verify.html">Verify Product</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Products</h1>
+      <p>Register a product to create its first immutable ledger entry, then track it below.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Register a product</h2>
+        <div id="formNotice"></div>
+        <form id="productForm">
+          <label for="productId">Product ID</label>
+          <input type="text" id="productId" placeholder="PRD-001" required>
+
+          <label for="productName">Product name</label>
+          <input type="text" id="productName" placeholder="Organic Turmeric Powder" required>
+
+          <div class="form-row">
+            <div>
+              <label for="batchNumber">Batch number</label>
+              <input type="text" id="batchNumber" placeholder="BATCH-2026-01" required>
+            </div>
+            <div>
+              <label for="supplierId">Supplier ID</label>
+              <input type="text" id="supplierId" placeholder="SUP-001" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label for="manufacturingDate">Manufacturing date</label>
+              <input type="date" id="manufacturingDate" required>
+            </div>
+            <div>
+              <label for="expiryDate">Expiry date</label>
+              <input type="date" id="expiryDate" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Register product</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>All products</h2>
+        <div id="productList"><p class="empty-state">Loading…</p></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>
